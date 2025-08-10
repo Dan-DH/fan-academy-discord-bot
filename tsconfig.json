@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "rootDir": "src",
+        "outDir": "dist",
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "types": [
+            "node"
+        ],
+        "sourceMap": true
+    },
+    "include": [
+        "src/**/*",
+        "scripts/deploy-commands.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
