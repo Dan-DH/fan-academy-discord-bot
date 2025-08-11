@@ -1,5 +1,7 @@
 
 import { TextChannel, Client, Guild } from 'discord.js';
+import dotenv from 'dotenv';
+dotenv.config();
 import { NotificationDelivery, INotificationDelivery } from '../db/models/NotificationDelivery';
 import { Notification, INotification } from '../db/models/Notification';
 import { UserLink, IUserLink } from '../db/models/UserLink';
@@ -39,13 +41,23 @@ export async function runNotifierLoop(client: Client) {
      * Formats a list of notification deliveries into message lines.
      */
     function formatNotificationLines(deliveries: INotificationDelivery[], notificationMap: Map<string, INotification>): string[] {
-        return deliveries.map((d) => {
+        // Group by title+summary
+        const groupMap = new Map<string, { title: string; summary: string; count: number }>();
+        for (const d of deliveries) {
             const n = notificationMap.get(String(d.notificationId));
-            if (!n) return '';
-            const title = n.title;
-            const summary = n.summary;
-            return `• [${title}] — ${summary}`;
-        }).filter(Boolean);
+            if (!n) continue;
+            const key = `${n.title}|||${n.summary}`;
+            if (!groupMap.has(key)) {
+                groupMap.set(key, { title: n.title, summary: n.summary, count: 1 });
+            } else {
+                groupMap.get(key)!.count++;
+            }
+        }
+        // Format lines
+        return Array.from(groupMap.values()).map(({ title, summary, count }) => {
+            const countStr = count > 1 ? ` (${count})` : '';
+            return `• [${title}] — ${summary}${countStr}`;
+        });
     }
 
     /**
@@ -70,9 +82,13 @@ export async function runNotifierLoop(client: Client) {
             }
 
             // Claim a batch: pull pending deliveries
+            // Only include notifications created within the configured max age (default: 7 days)
+            const maxAgeDays = Number(process.env.NOTIFICATION_MAX_AGE_DAYS) || 7;
+            const minCreatedAt = new Date(Date.now() - maxAgeDays * 24 * 60 * 60 * 1000);
             const pending = await NotificationDelivery.find({
                 deliveredAt: null,
                 claimedAt: null,
+                createdAt: { $gte: minCreatedAt },
             })
                 .limit(NOTIFICATION_BATCH_LIMIT)
                 .lean<INotificationDelivery[]>();

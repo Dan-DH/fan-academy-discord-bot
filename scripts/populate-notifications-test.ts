@@ -28,11 +28,19 @@ async function main() {
     const insertedNotifications = await Notification.insertMany(notifications);
     console.log(`Inserted ${insertedNotifications.length} notifications.`);
 
+    const duplicatedNotifications = Array.from({ length: 2 }).map((_, i) => ({
+        title: `Duplicated Notification`,
+        summary: `This is a duplicated notification`,
+        createdAt: new Date(now.getTime() - i * 60000), // each 1 min apart
+    }));
+    const insertedDuplicatedNotifications = await Notification.insertMany(duplicatedNotifications);
+    console.log(`Inserted ${duplicatedNotifications.length} duplicated notifications.`);
+
     // 2. Create NotificationDeliveries for each user and notification
     await NotificationDelivery.deleteMany({});
     const deliveries: Partial<INotificationDelivery>[] = [];
     for (const user of userLinks) {
-        for (const notif of insertedNotifications) {
+        for (const notif of [...insertedNotifications, ...insertedDuplicatedNotifications]) {
             deliveries.push({
                 notificationId: notif._id,
                 username: user.username,

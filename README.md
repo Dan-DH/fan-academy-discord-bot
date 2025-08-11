@@ -23,9 +23,13 @@ A TypeScript Discord bot using discord.js v14 and mongoose. It links Discord use
    DISCORD_CLIENT_ID=...
    DISCORD_GUILD_ID=...
    MONGODB_URI=mongodb://localhost:27017/yourdb
+   DEFAULT_NOTIFY_CHANNEL_ID=
+   ```
+    Optionals:
+   ```bash   
    DEFAULT_POLL_INTERVAL_SECONDS=30
    DEFAULT_MESSAGE_SPACING_MS=1500
-   DEFAULT_NOTIFY_CHANNEL_ID=
+   NOTIFICATION_MAX_AGE_DAYS=7
    ```
 
 3. Start MongoDB (if not already running).
