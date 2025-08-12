@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "ES2022",
         "module": "CommonJS",
-        "rootDir": "src",
+        "rootDir": "./src",
         "outDir": "dist",
         "strict": true,
         "esModuleInterop": true,
@@ -17,7 +17,7 @@
     },
     "include": [
         "src/**/*",
-        "scripts/deploy-commands.ts"
+        // "scripts/deploy-commands.ts"
     ],
     "exclude": [
         "node_modules",
