@@ -85,6 +85,7 @@ export async function runNotifierLoop(client: Client) {
             // Only include notifications created within the configured max age (default: 7 days)
             const maxAgeDays = Number(process.env.NOTIFICATION_MAX_AGE_DAYS) || 7;
             const minCreatedAt = new Date(Date.now() - maxAgeDays * 24 * 60 * 60 * 1000);
+            const removeUndeliverable = await NotificationDelivery.deleteMany({error: "No Discord link"})
             const pending = await NotificationDelivery.find({
                 deliveredAt: null,
                 claimedAt: null,

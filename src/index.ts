@@ -9,7 +9,6 @@ import { runNotifierLoop } from './services/notifier';
 async function main() {
     await connectMongo();
 
-    // Setup a minimal Express server
     const app = express();
     const PORT = process.env.PORT || 3000;
 

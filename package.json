@@ -1,36 +1,36 @@
 {
-    "name": "fan-academy-discord-bot",
-    "version": "1.0.0",
-    "private": true,
-    "description": "Discord bot with TypeScript, discord.js v14, mongoose, and a notifications poller.",
-    "license": "MIT",
-    "engines": {
-        "node": ">=22"
-    },
-    "main": "dist/index.js",
-    "scripts": {
-        "build": "tsc -p tsconfig.json",
-        "start": "node dist/index.js",
-        "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-        "deploy:commands": "ts-node src/bot/deploy-commands.ts",
-        "lint": "eslint . --ext .ts"
-    },
-    "dependencies": {
-        "discord.js": "^14.16.3",
-        "dotenv": "^16.4.5",
-        "express": "^5.1.0",
-        "mongoose": "^8.6.3",
-        "zod": "^3.23.8"
-    },
-    "devDependencies": {
-        "@types/express": "^5.0.3",
-        "@types/node": "^24.2.1",
-        "@typescript-eslint/eslint-plugin": "^8.1.0",
-        "@typescript-eslint/parser": "^8.1.0",
-        "eslint": "^9.9.0",
-        "eslint-plugin-import": "^2.29.1",
-        "ts-node": "^10.9.2",
-        "ts-node-dev": "^2.0.0",
-        "typescript": "^5.5.4"
-    }
+  "name": "fan-academy-discord-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Discord bot with TypeScript, discord.js v14, mongoose, and a notifications poller.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "deploy:commands": "ts-node scripts/deploy-commands.ts",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.6.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
+    "eslint": "^9.9.0",
+    "eslint-plugin-import": "^2.29.1",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
+  }
 }
