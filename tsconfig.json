@@ -18,7 +18,7 @@
     },
     "include": [
         "src/**/*",
-        "scripts/deploy-commands.ts"
+        // "scripts/deploy-commands.ts"
     ],
     "exclude": [
         "node_modules",
