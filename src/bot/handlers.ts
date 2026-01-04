@@ -8,6 +8,8 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
     try {
+      await interaction.deferReply({ ephemeral: true });
+
         switch (interaction.commandName) {
             case 'register':
                 await handleRegister(interaction);
@@ -19,12 +21,13 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
                 await handleConfig(interaction);
                 break;
             default:
-                await interaction.reply({ content: 'Unknown command', ephemeral: true });
+                await interaction.editReply('Unknown command');
         }
     } catch (err) {
         console.error('[bot] command error', err);
+
         if (interaction.deferred || interaction.replied) {
-            await interaction.followUp({ content: 'There was an error processing that command.', ephemeral: true });
+            await interaction.editReply('There was an error processing that command.');
         } else {
             await interaction.reply({ content: 'There was an error processing that command.', ephemeral: true });
         }

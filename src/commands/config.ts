@@ -52,21 +52,20 @@ function requireGuildAdmin(interaction: ChatInputCommandInteraction): string | n
 
 export async function handleConfig(interaction: ChatInputCommandInteraction) {
     const err = requireGuildAdmin(interaction);
-    if (err) return interaction.reply({ content: err, ephemeral: true });
+    if (err) return interaction.editReply({ content: err });
 
     const guildId = interaction.guildId!;
     const sub = interaction.options.getSubcommand();
 
     if (sub === 'show') {
         const cfg = await GuildConfig.getEffectiveConfig(guildId);
-        return interaction.reply({
+        return interaction.editReply({
             content: [
                 `Guild: ${guildId}`,
                 `Notify channel: ${cfg.notifyChannelId ?? '(not set)'}`,
                 `Poll interval: ${cfg.pollIntervalSeconds}s`,
                 `Message spacing: ${cfg.messageSpacingMs}ms`,
             ].join('\n'),
-            ephemeral: true,
         });
     }
 
@@ -75,25 +74,25 @@ export async function handleConfig(interaction: ChatInputCommandInteraction) {
         // Accept text-capable channel types (GUILD_TEXT=0, GUILD_ANNOUNCEMENT=5, GUILD_FORUM=15 uses posts; still allow)
         const allowedTypes = new Set([0, 5, 15]);
         if (!ch || !allowedTypes.has((ch as any).type)) {
-            return interaction.reply({ content: 'Please choose a text-capable channel.', ephemeral: true });
+            return interaction.editReply({ content: 'Please choose a text-capable channel.' });
         }
         await GuildConfig.upsertGuildConfig(guildId, { notifyChannelId: ch.id });
-        return interaction.reply({ content: `Notify channel set to <#${ch.id}>`, ephemeral: true });
+        return interaction.editReply({ content: `Notify channel set to <#${ch.id}>` });
     }
 
     if (sub === 'set-poll-interval') {
         const seconds = interaction.options.getInteger('seconds', true);
         const parsed = schema.safeParse({ seconds });
         if (!parsed.success) {
-            return interaction.reply({ content: 'Seconds must be an integer >= 5.', ephemeral: true });
+            return interaction.editReply({ content: 'Seconds must be an integer >= 5.' });
         }
         await GuildConfig.upsertGuildConfig(guildId, { pollIntervalSeconds: seconds });
-        return interaction.reply({ content: `Poll interval set to ${seconds}s`, ephemeral: true });
+        return interaction.editReply({ content: `Poll interval set to ${seconds}s` });
     }
 
     if (sub === 'set-message-spacing') {
         const ms = interaction.options.getInteger('ms', true);
         await GuildConfig.upsertGuildConfig(guildId, { messageSpacingMs: Math.max(0, ms) });
-        return interaction.reply({ content: `Message spacing set to ${ms}ms`, ephemeral: true });
+        return interaction.editReply({ content: `Message spacing set to ${ms}ms` });
     }
 }

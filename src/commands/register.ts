@@ -38,5 +38,7 @@ export async function handleRegister(interaction: ChatInputCommandInteraction) {
         { upsert: true }
     );
 
-    return interaction.reply({ content: `Linked to username "${username}".`, ephemeral: true });
+    return interaction.editReply({
+      content: `Linked to username "${username}".`,
+    });
 }

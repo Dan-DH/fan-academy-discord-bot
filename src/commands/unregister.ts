@@ -13,5 +13,5 @@ export async function handleUnregister(interaction: ChatInputCommandInteraction)
     }
 
     await UserLink.deleteOne({ discordUserId });
-    return interaction.reply({ content: 'Your link has been removed.', ephemeral: true });
+    return interaction.editReply({ content: 'Your link has been removed.' });
 }
