@@ -23,6 +23,10 @@ async function main() {
     const token = process.env.DISCORD_TOKEN;
     if (!token) throw new Error('DISCORD_TOKEN is not set');
 
+    client.once('ready', () => {
+        console.log(`[bot] Logged in as ${client.user?.tag}`);
+    });
+
     await client.login(token);
     runNotifierLoop(client);
 }

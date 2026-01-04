@@ -5,6 +5,8 @@ import { handleUnregister } from '../commands/unregister';
 import { handleConfig } from '../commands/config';
 
 client.on(Events.InteractionCreate, async (interaction: Interaction) => {
+    console.log('[interaction] received');
+
     if (!interaction.isChatInputCommand()) return;
 
     try {
@@ -33,3 +35,5 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
         }
     }
 });
+
+console.log('[boot] handlers.ts loaded');
